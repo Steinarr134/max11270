@@ -59,11 +59,13 @@
  		uint8_t dataRate = MAX11270_CONTINUOUS_DATARATE_1K;
  		float _vref;
  		float _calibration_factor = 1.;
- 		int _gain;
+ 		int _gain = MAX11270_PGA_GAIN_1;
  		float _raw2micro;
  		uint8_t cs;
  		// ctrl resgisters are numbered 1,2,3,4 and 5, So to index them with their number
- 		// the first value in the ctrls array is useless.
+ 		// the first value in the ctrls array is useless. These are the default values on
+              // on startup so in theory the values in ctrls should be identical to the registers
+              // inside the max11270
  		uint8_t ctrls[6] = {
  			0,
  			0b00000010,
@@ -72,7 +74,7 @@
  			0b00001111,
  			0b00001100
  		};
- 		void _requestCalibration(bool wait);
+ 		void _requestCalibration();
  		void _calc_raw2micro();
 
  	public :
@@ -92,6 +94,7 @@
  		void setExternalClock(bool onoff);
  		void setDataRate(uint8_t datarate);
  		void setCalibrationFactor(float cf);
+              void setSpiClockSpeed(uint32_t spi_clock);
 
  		void performSelfCalibration();
  		void performSelfCalibration(bool wait);
